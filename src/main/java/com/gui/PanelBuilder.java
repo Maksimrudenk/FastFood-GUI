@@ -18,7 +18,7 @@ public class PanelBuilder {
         this.panel=panel;
     }
 
-    public void initPanel(Class<? extends Food> clazz, JFrame mainFrame, JPanel mainPanel) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public <C extends Food> void initPanel(Class<C> clazz, JFrame mainFrame, JPanel mainPanel) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         Field[] fields = clazz.getDeclaredFields();
         ArrayList<AttributeBox<?>> boxes = new ArrayList<>();
@@ -40,6 +40,28 @@ public class PanelBuilder {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                C result;
+                try {
+                    result = clazz.getConstructor(new Class[]{}).newInstance();
+                } catch (InstantiationException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IllegalAccessException ex) {
+                    throw new RuntimeException(ex);
+                } catch (InvocationTargetException ex) {
+                    throw new RuntimeException(ex);
+                } catch (NoSuchMethodException ex) {
+                    throw new RuntimeException(ex);
+                }
+                for (AttributeBox<?> b:boxes) {
+                    try {
+                        b.setAttribute(result);
+                    } catch (InvocationTargetException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (IllegalAccessException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                System.out.println(result);
                 mainFrame.setContentPane(mainPanel);
                 mainFrame.revalidate();
             }

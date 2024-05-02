@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 
 public class AttributeBox<E> extends JComboBox<E> {
 
-    Method method;
+    private final Method method;
 
     public AttributeBox(Method method, E[] elements){
         super(elements);

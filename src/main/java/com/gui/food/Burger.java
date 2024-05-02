@@ -1,13 +1,26 @@
 package com.gui.food;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 public class Burger implements Food{
 
-    private final int BASE_PRICE;
+    private final int BASE_PRICE = 3;
 
     private Meat meat;
+
+    public Burger() {
+    }
+
+    @Override
+    public String toString() {
+        return "Burger{" +
+                "meat=" + meat +
+                ", sauce=" + sauce +
+                ", price=" + calculatePrice() +
+                '}';
+    }
 
     private Sauce sauce;
 
