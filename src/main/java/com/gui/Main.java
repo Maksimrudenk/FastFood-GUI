@@ -2,6 +2,7 @@ package com.gui;
 
 import com.gui.food.Burger;
 import com.gui.food.Food;
+import com.gui.guiTools.PanelBuilder;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

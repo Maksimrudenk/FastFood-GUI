@@ -1,4 +1,4 @@
-package com.gui;
+package com.gui.guiTools;
 
 import com.gui.food.Food;
 

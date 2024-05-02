@@ -1,6 +1,7 @@
-package com.gui;
+package com.gui.guiTools;
 
 import com.gui.food.Food;
+import com.gui.guiTools.AttributeBox;
 import lombok.SneakyThrows;
 
 import javax.swing.*;
@@ -57,7 +58,7 @@ public class PanelBuilder {
         }
     }
 
-    /**Returns {@link com.gui.AttributeBox}es for all attributes of provided {@link com.gui.food.Food} type*/
+    /**Returns {@link AttributeBox}es for all attributes of provided {@link com.gui.food.Food} type*/
     private <C extends Food> ArrayList<AttributeBox<?>> createBoxes(Class<C> clazz) throws NoSuchMethodException {
         ArrayList<AttributeBox<?>> result = new ArrayList<>();
         Field[] fields = clazz.getDeclaredFields();
