@@ -1,6 +1,7 @@
 package com.gui;
 
 import com.gui.food.Food;
+import lombok.SneakyThrows;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -10,62 +11,69 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+/**Is object that fill builder panels*/
 public class PanelBuilder {
 
-    private final JPanel panel;
+    private final JPanel mainPanel;
+    private final JFrame mainFrame;
 
-    public PanelBuilder(JPanel panel){
-        this.panel=panel;
+    /**@param mainPanel panel that user returns to after process of customization finishes
+     * @param mainFrame frame on each action is performed*/
+    public PanelBuilder(JPanel mainPanel, JFrame mainFrame){
+        this.mainPanel=mainPanel;
+        this.mainFrame=mainFrame;
     }
 
-    public <C extends Food> void initPanel(Class<C> clazz, JFrame mainFrame, JPanel mainPanel) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    /**start the process of filling builder panel
+     * @param clazz specifies with which type of {@link com.gui.food.Food} panel works
+     * @param panel panel to be filled*/
+    public <C extends Food> void initPanel(Class<C> clazz , JPanel panel) throws ReflectiveOperationException, SecurityException{
+        try {
+            ArrayList<AttributeBox<?>> boxes = createBoxes(clazz);
+            for (AttributeBox<?> box : boxes) {
+                panel.add(box);
+            }
 
+            JButton submitButton = new JButton("Submit");
+            submitButton.addMouseListener(new MouseAdapter() {
+                @SneakyThrows
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    C result = clazz.getConstructor(new Class[]{}).newInstance();
+                    for (AttributeBox<?> b : boxes) {
+                        b.setAttribute(result);
+                    }
+                    System.out.println(result);
+                    mainFrame.setContentPane(mainPanel);
+                    mainFrame.revalidate();
+                }
+            });
+            panel.add(submitButton);
+
+        }catch (NoSuchMethodException | NullPointerException exception){
+            throw new ReflectiveOperationException("Reflective exception while filling builder for"+clazz.toString(),exception);
+        } catch (SecurityException exception){
+            throw new SecurityException("Security exception while filling builder for"+clazz, exception);
+        }
+    }
+
+    /**Returns {@link com.gui.AttributeBox}es for all attributes of provided {@link com.gui.food.Food} type*/
+    private <C extends Food> ArrayList<AttributeBox<?>> createBoxes(Class<C> clazz) throws NoSuchMethodException {
+        ArrayList<AttributeBox<?>> result = new ArrayList<>();
         Field[] fields = clazz.getDeclaredFields();
-        ArrayList<AttributeBox<?>> boxes = new ArrayList<>();
         for (int i = 1; i<fields.length;i++) {
             Field f = fields[i];
             String name = f.getName();
             String first = String.valueOf(name.charAt(0));
             String replace = first.toUpperCase();
             name = name.replaceFirst(first, replace);
-            Method method = clazz.getMethod("set"+name, f.getType());
+            Method method;
+            method = clazz.getMethod("set" + name, f.getType());
             Object[] elements = f.getType().getEnumConstants();
-            AttributeBox<?> box = new AttributeBox<>(method,elements);
-            boxes.add(box);
-            panel.add(box);
+            AttributeBox<?> box = new AttributeBox<>(method, elements);
+            result.add(box);
         }
-
-        JButton submitButton = new JButton("Submit");
-        submitButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                C result;
-                try {
-                    result = clazz.getConstructor(new Class[]{}).newInstance();
-                } catch (InstantiationException ex) {
-                    throw new RuntimeException(ex);
-                } catch (IllegalAccessException ex) {
-                    throw new RuntimeException(ex);
-                } catch (InvocationTargetException ex) {
-                    throw new RuntimeException(ex);
-                } catch (NoSuchMethodException ex) {
-                    throw new RuntimeException(ex);
-                }
-                for (AttributeBox<?> b:boxes) {
-                    try {
-                        b.setAttribute(result);
-                    } catch (InvocationTargetException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (IllegalAccessException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-                System.out.println(result);
-                mainFrame.setContentPane(mainPanel);
-                mainFrame.revalidate();
-            }
-        });
-        panel.add(submitButton);
+        return result;
     }
 }

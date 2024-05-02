@@ -26,7 +26,7 @@ public class Main {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                builder(Burger.class);
+                initBuilder(Burger.class);
             }
         });
     }
@@ -42,17 +42,18 @@ public class Main {
 
     }
 
-    private void builder(Class<? extends Food> clazz){
+    /**Method that initialize a Builder page for Food type specified by param class*/
+    private void initBuilder(Class<? extends Food> clazz){
         JPanel panel = new JPanel();
-
-        PanelBuilder pb = new PanelBuilder(panel);
+        PanelBuilder pb = new PanelBuilder(main, mainFrame);
         try {
-            pb.initPanel(clazz, mainFrame, main);
+            pb.initPanel(clazz, panel);
         } catch (Exception e){
             System.out.println("Exception in initializing panel");
             for (StackTraceElement t: e.getStackTrace()) {
                 System.out.println(t.toString());
             }
+            panel.add(new JLabel("Exception occurred"));
         }
         mainFrame.setContentPane(panel);
         mainFrame.revalidate();
