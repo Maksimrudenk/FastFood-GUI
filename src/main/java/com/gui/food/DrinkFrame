@@ -1,0 +1,47 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+/**
+ * Write a description of class DrinkFrame here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+public class DrinkFrame extends JFrame
+{
+    private JComboBox<String> drinkFrame;
+    private OrderController controller;
+    public DrinkFrame(OrderController controller){
+        this.controller=controller;
+        setTitle("Drinks");
+        setSize(300, 200);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        String[] drink = {"Water $1", "Cola $2", "Orange Juice $1.50","None"};
+        drinkFrame= new JComboBox<>(drink);
+        JButton addButton = new JButton("Add Drink to Order");
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addToOrder();
+            }
+        });
+        
+        add(drinkFrame);
+        add(addButton);
+        
+        setVisible(true);
+    }
+
+    private void addToOrder(){
+        double price= extractPrice((String) drinkFrame.getSelectedItem());
+        controller.addToTotal(price);
+        dispose();
+    }
+
+    private double extractPrice(String item) {
+        String pricePart = item.substring(item.indexOf("$") + 1);
+        return Double.parseDouble(pricePart);
+    }
+}
