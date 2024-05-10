@@ -1,0 +1,45 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class SideDishFrame extends JFrame {
+    private JComboBox<String> sideDishBox;
+    private OrderController controller;
+
+    public SideDishFrame(OrderController controller) {
+        this.controller = controller;
+        setTitle("Side Dishes");
+        setSize(300, 200);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        String[] sideDishes = {"Fries $2", "Salad $3", "Onion Rings $2.50"};
+        sideDishBox = new JComboBox<>(sideDishes);
+
+        JButton addButton = new JButton("Add Side to Order");
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addToOrder();
+            }
+        });
+
+        add(sideDishBox);
+        add(addButton);
+
+        setVisible(true);
+    }
+
+    private void addToOrder() {
+        double price = extractPrice((String) sideDishBox.getSelectedItem());
+        controller.addToTotal(price);
+        dispose();
+    }
+
+
+     private double extractPrice(String item) {
+        String pricePart = item.substring(item.indexOf("$") + 1);
+        return Double.parseDouble(pricePart);
+    }
+
+}
