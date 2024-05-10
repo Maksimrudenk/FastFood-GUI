@@ -1,0 +1,58 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class RestaurantOrderSystem extends JFrame { // access of gui components
+    private JTextArea totalDisplay; //Area that displays text
+    private OrderController controller; // class extension
+
+    public RestaurantOrderSystem() {
+        //Creation of Interface & Buttons
+        super("Restaurant Order System");
+        controller = new OrderController(this);
+        setSize(400, 300);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        JButton burgerButton = new JButton("Order Burger");
+        burgerButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    new BigBurger(controller);
+                }
+            });
+
+        JButton sideDishButton = new JButton("Order Side Dish");
+        sideDishButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    new SideDishFrame(controller);
+                }
+            });
+            JButton DrinkButton = new JButton("Order Drink");
+        DrinkButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    new DrinkFrame(controller);
+                }
+            });
+
+        totalDisplay = new JTextArea(5, 30); //size creation
+        totalDisplay.setEditable(false);
+        updateTotalDisplay(); 
+
+        add(burgerButton);
+        add(sideDishButton);
+        add(DrinkButton);
+        add(new JScrollPane(totalDisplay));
+
+        setVisible(true);
+    }
+
+    public void updateTotalDisplay() { // Total cash || @param totalDisplay.setText.. is an output of the amount.
+        //@param String.
+        totalDisplay.setText("Total: $" + String.format("%.2f", controller.getTotal()));
+    }
+
+    public static void main(String[] args) { //Main method
+        new RestaurantOrderSystem();
+    }
+}
