@@ -1,56 +1,60 @@
 package com.gui.food;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-public class Burger implements Food{
+public class Burger extends Food {
 
-    private final int BASE_PRICE = 3;
+    private final Meat meat = new Meat();
 
-    private Meat meat;
+    private final Sauce sauce = new Sauce();
+
+    private final Topping topping = new Topping();
 
     public Burger() {
+    }
+
+    public void setMeat(String value) {
+        this.meat.value=value;
+    }
+
+    public void setSauce(String value) {
+        this.sauce.value = value;
+    }
+
+    public void setTopping(String value) {
+        this.topping.value = value;
     }
 
     @Override
     public String toString() {
         return "Burger{" +
-                "meat=" + meat +
-                ", sauce=" + sauce +
+                "meat=" + meat.value +
+                ", sauce=" + sauce.value +
+                ", topping=" + topping.value +
                 ", price=" + calculatePrice() +
                 '}';
     }
 
-    private Sauce sauce;
-
-    public int calculatePrice() {
-        return BASE_PRICE + meat.price + sauce.price;
+    public double calculatePrice() {
+        return meat.price() + sauce.price() + topping.price();
     }
 
-    enum Meat{
-        Chicken("chicken", 2), Beef("beef", 3);
 
-        final int price;
-        final String value;
+    static class Sauce extends ComponentAbstract{
 
-        Meat (String value, int price){
-            this.value=value;
-            this.price=price;
-        }
+        public static final String[] options = {"Ketchup $1", "Mayonnaise $1", "Mustard $1", "None $0"};
 
     }
 
-    enum Sauce{
-        Mustard("Mustard", 1), BbqSauce("Bbq Sauce", 2);
+    static class Meat extends ComponentAbstract{
 
-        final int price;
-        final String value;
+        public static final String[] options = {"Beef $5", "Pork $4", "Chicken $3", "Vegan $6"};
 
-        Sauce (String value, int price){
-            this.value=value;
-            this.price=price;
-        }
+    }
+
+    static class Topping extends ComponentAbstract{
+
+        public static final String[] options = {"Lettuce $0.50", "Tomato $0.50", "Cheese $0.75"};
 
     }
 }

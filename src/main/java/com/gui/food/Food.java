@@ -1,6 +1,7 @@
 package com.gui.food;
 
-public interface Food {
+public abstract class Food {
 
-    int calculatePrice();
+    public abstract double calculatePrice();
+
 }
