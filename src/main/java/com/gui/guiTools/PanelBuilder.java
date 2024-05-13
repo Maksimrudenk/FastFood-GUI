@@ -2,7 +2,6 @@ package com.gui.guiTools;
 
 import com.gui.Cart;
 import com.gui.food.Food;
-import com.gui.guiTools.AttributeBox;
 import lombok.SneakyThrows;
 
 import javax.swing.*;

@@ -3,19 +3,18 @@ package com.gui;
 import com.gui.food.Burger;
 import com.gui.food.Drink;
 import com.gui.food.Food;
+import com.gui.food.SideDish;
 import com.gui.guiTools.FoodFrame;
-import com.gui.guiTools.PanelBuilder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class RestaurantOrderSystem extends JFrame { // access of gui components
-    private JTextArea totalDisplay; //Area that displays text
+    private final JTextArea totalDisplay; //Area that displays text
 
-    private Cart<Food> cart;
+    private final Cart<Food> cart= new Cart<>(this);
 
     public RestaurantOrderSystem() {
         //Creation of Interface & Buttons
@@ -24,8 +23,6 @@ public class RestaurantOrderSystem extends JFrame { // access of gui components
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
 
-        cart = new Cart<>(this);
-
         JButton burgerButton = new JButton("Order Burger");
         burgerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -33,12 +30,12 @@ public class RestaurantOrderSystem extends JFrame { // access of gui components
             }
         });
 
-//        JButton sideDishButton = new JButton("Order Side Dish");
-//        sideDishButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                initBuilder(Burger.class);
-//            }
-//        });
+        JButton sideDishButton = new JButton("Order Side Dish");
+        sideDishButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new FoodFrame(SideDish.class, cart);
+            }
+        });
 
         JButton DrinkButton = new JButton("Order Drink");
         DrinkButton.addActionListener(new ActionListener() {
@@ -52,7 +49,7 @@ public class RestaurantOrderSystem extends JFrame { // access of gui components
         cart.updateOutput();
 
         add(burgerButton);
-//        add(sideDishButton);
+        add(sideDishButton);
         add(DrinkButton);
         add(new JScrollPane(totalDisplay));
 
@@ -63,7 +60,6 @@ public class RestaurantOrderSystem extends JFrame { // access of gui components
     public JTextArea getTotalDisplay() {
         return totalDisplay;
     }
-
 
 
     public static void main(String[] args) { //Main method

@@ -1,7 +1,5 @@
 package com.gui.food;
 
-import lombok.Data;
-
 public class Burger extends Food {
 
     private final Meat meat = new Meat();
@@ -14,7 +12,7 @@ public class Burger extends Food {
     }
 
     public void setMeat(String value) {
-        this.meat.value=value;
+        this.meat.value = value;
     }
 
     public void setSauce(String value) {
@@ -40,19 +38,19 @@ public class Burger extends Food {
     }
 
 
-    static class Sauce extends ComponentAbstract{
+    static class Sauce extends ComponentAbstract {
 
         public static final String[] options = {"Ketchup $1", "Mayonnaise $1", "Mustard $1", "None $0"};
 
     }
 
-    static class Meat extends ComponentAbstract{
+    static class Meat extends ComponentAbstract {
 
         public static final String[] options = {"Beef $5", "Pork $4", "Chicken $3", "Vegan $6"};
 
     }
 
-    static class Topping extends ComponentAbstract{
+    static class Topping extends ComponentAbstract {
 
         public static final String[] options = {"Lettuce $0.50", "Tomato $0.50", "Cheese $0.75"};
 

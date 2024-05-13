@@ -3,7 +3,7 @@ package com.gui.food;
 import lombok.Data;
 
 @Data
-public class Drink extends Food{
+public class Drink extends Food {
 
     private final DrinkType drink = new DrinkType();
 
@@ -12,12 +12,12 @@ public class Drink extends Food{
     }
 
     public void setDrink(String value) {
-        this.drink.value=value;
+        this.drink.value = value;
     }
 
-    static class DrinkType extends ComponentAbstract{
+    static class DrinkType extends ComponentAbstract {
 
-        public static final String[] options = {"Water $1", "Coke $2", "Orange Juice $1.50","None $0"};
+        public static final String[] options = {"Water $1", "Coke $2", "Orange Juice $1.50", "None $0"};
 
     }
 
