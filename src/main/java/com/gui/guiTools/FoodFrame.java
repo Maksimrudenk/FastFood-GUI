@@ -6,10 +6,17 @@ import com.gui.food.Food;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Frame that provides window for creation and customization of any {@link com.gui.food.Food} type
+ * */
 public class FoodFrame extends JFrame {
 
     public final PanelBuilder pb;
 
+    /**
+     * @param clazz the class of {@link com.gui.food.Food} FoodFrame works with
+     * @param cart the storage for created food
+     * */
     public FoodFrame(Class<? extends Food> clazz, Cart<Food> cart) {
         setTitle(clazz.getSimpleName());
         setSize(300, 200);
@@ -25,7 +32,6 @@ public class FoodFrame extends JFrame {
             }
             panel.add(new JLabel("Exception occurred"));
         }
-        setContentPane(panel);
         setVisible(true);
     }
 }

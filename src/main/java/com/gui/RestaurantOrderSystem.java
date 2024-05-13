@@ -11,7 +11,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RestaurantOrderSystem extends JFrame { // access of gui components
+/**
+ * Main frame;
+ * */
+public class RestaurantOrderSystem extends JFrame {
     private final JTextArea totalDisplay; //Area that displays text
 
     private final Cart<Food> cart= new Cart<>(this);

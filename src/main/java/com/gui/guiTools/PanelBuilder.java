@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
- * Is object that fill builder panels
+ * Is object that fill customization panels
  */
 public class PanelBuilder {
 
@@ -21,8 +21,8 @@ public class PanelBuilder {
     private final JFrame frame;
 
     /**
-     * @param mainPanel panel that user returns to after process of customization finishes
-     * @param mainFrame frame on each action is performed
+     * @param cart The storage for created {@link com.gui.food.Food}
+     * @param frame Frame on which the panel is placed
      */
     public PanelBuilder(Cart<Food> cart, JFrame frame) {
         this.cart = cart;
@@ -59,6 +59,7 @@ public class PanelBuilder {
                 }
             });
             panel.add(submitButton);
+            frame.setContentPane(panel);
 
         } catch (NoSuchMethodException | NullPointerException exception) {
             throw new ReflectiveOperationException("Reflective exception while filling builder for" + clazz.toString(), exception);
