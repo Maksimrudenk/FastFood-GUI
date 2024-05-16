@@ -25,6 +25,8 @@ public class RestaurantOrderSystem extends JFrame {
         setSize(400, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
+        ImageIcon image = new ImageIcon("src/main/resources/images/logo.png");
+        setIconImage(image.getImage());
 
         JButton burgerButton = new JButton("Order Burger");
         burgerButton.addActionListener(new ActionListener() {

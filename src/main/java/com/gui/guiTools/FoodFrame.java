@@ -21,6 +21,8 @@ public class FoodFrame extends JFrame {
         setTitle(clazz.getSimpleName());
         setSize(300, 200);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        ImageIcon image = new ImageIcon("src/main/resources/images/logo.png");
+        setIconImage(image.getImage());
         pb = new PanelBuilder(cart, this);
         JPanel panel = new JPanel(new FlowLayout());
         try {
